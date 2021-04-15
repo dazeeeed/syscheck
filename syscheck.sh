@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# program needs ssmtp configured and mailutils installed
-# config in /etc/ssmtp/ssmtp.conf
-
 let ipdev=0 #which device number
 let first_run=1
 touch /tmp/syscheck.cache

@@ -1,0 +1,40 @@
+SYSCHECK DESCRIPTION (STEPS)
+
+IP ADDRESS =====================================================================
+- We start by creating a cache file stored in /tmp/ and creating variables 'ipdev',
+which we will later use to increment to show number of internet devices and 'first_run'
+variable.
+
+- For loop is used to iterate over findings of grep 'command' which searches for
+internet devices (text returned by 'ip addr' command). '-P' flag stands for using
+a Perl RegEx and '-o' for returning only a matched word.
+
+- If condition checks whether current grep finding describes an IP address or some
+other information. If it describes IP we append current address to a cache file.
+
+
+RAM ============================================================================
+- Using a Perl RegEx we search for a matches of current RAM configuration. '-h' flag
+stands for 'human' (showing results in suitable form eg. gigabytes).
+
+- Result is appended to a cache file.
+
+
+CPU INFORMATION ================================================================
+- The CPU information is stored in /proc/cpuinfo file, thus we append it to a cache
+file.
+
+
+MAIL ===========================================================================
+- Firstly we check if logs.log file exists, if not we know we need to create it,
+put cache information to it and send a mail with a current configuration (first_run=0).
+
+- Second if statement checks whether logs.log and syscheck.cache file are different,
+if so the script copies text from cache file to a log file and sends a mail.
+'-s' flag stands for 'subject' of a mail to <EMAIL>. If the files are the same,
+a script gives information about no parameter change.
+
+-!!! To correctly send a mail, script needs to have /etc/sstmp/ssmtp.conf file
+configured (of course it doesn't need to be gmail, but if it is some different domain
+you need to check your mail security settings). Moreover check if TLS_CA_FILE is
+correctly specified. If a certificate is not correct it will return your mail. 
